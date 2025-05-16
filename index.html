@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>DIZ FLYZE BRUTEFORCE</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      height: 100%;
+      background-color: black;
+      color: white;
+      font-family: monospace;
+      user-select: none;
+      touch-action: none;
+    }
+
+    *:focus {
+      outline: none;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: start;
+      padding-top: 20px;
+      height: 100%;
+    }
+
+    img {
+      width: 100px;
+      margin-bottom: 10px;
+    }
+
+    .fb-box, .terminal-box {
+      border: 2px solid white;
+      border-radius: 10px;
+      padding: 20px;
+      margin: 10px;
+      width: 90%;
+      max-width: 400px;
+      box-sizing: border-box;
+    }
+
+    .fb-box input {
+      display: block;
+      background: black;
+      color: white;
+      width: 100%;
+      padding: 5px 5px;
+      margin: 10px 0;
+      border-radius: 8px;
+      border: 2px solid #515151;
+      resize: none;
+    }
+
+    .fb-logo {
+      display: block;
+      width: 130px;
+      height: auto;
+      margin: 0 auto 10px;
+      object-fit: contain;
+      border-radius: 0;
+    }
+
+    .terminal-output {
+      background: #333;
+      padding: 10px;
+      font-size: 14px;
+      border-radius: 10px;
+      height: 220px;
+      overflow-y: auto;
+      white-space: pre-line;
+    }
+
+    button {
+      background: black;
+      width: 100%;
+      color: white;
+      border: 2px solid white;
+      border-radius: 10px;
+      padding: 5px 5px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="fb-box">
+      <img class="fb-logo" src="https://iili.io/3rxrFn4.md.png" alt="FB Logo">
+      <input type="text" id="email" placeholder="Masukan nomor atau email" />
+      <input type="text" id="friends" placeholder="Masukan jumlah teman" />
+      <input type="text" id="dob" placeholder="Masukan tanggal lahir" />
+      <input type="text" id="profile" placeholder="Masukan link profil" />
+    </div>
+    <div class="terminal-box">
+      <div class="terminal-output" id="terminal">
+        Mencari ...
+      </div>
+      <button id="startBtn" disabled>START SYSTEM</button>
+    </div>
+  </div>
+
+  <script>
+    const startBtn = document.getElementById('startBtn');
+    const inputs = document.querySelectorAll('.fb-box input');
+    const terminal = document.getElementById('terminal');
+
+    function checkInputs() {
+      let allFilled = true;
+      inputs.forEach(input => {
+        if (input.value.trim() === '') {
+          allFilled = false;
+        }
+      });
+      startBtn.disabled = !allFilled;
+    }
+
+    inputs.forEach(input => {
+      input.addEventListener('input', checkInputs);
+    });
+
+    function generatePassword(length = 8) {
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      let result = '';
+      for (let i = 0; i < length; i++) {
+        result += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return result;
+    }
+
+    let running = false;
+    startBtn.addEventListener('click', () => {
+      if (running) return;
+      running = true;
+      let combo = 1;
+
+      const updateTerminal = () => {
+        const now = new Date();
+        const time = now.toLocaleTimeString('id-ID');
+        const delay = Math.floor(Math.random() * 10) + 1;
+        const checking = Math.floor(Math.random() * 1000);
+        const failed = ["Failed", "Timeout", "Blocked"][Math.floor(Math.random() * 3)];
+        const loginFail = ["Kata sandi salah", "Mencoba lagi", "Mencoba kombinasi"][Math.floor(Math.random() * 3)];
+        const password = generatePassword(8 + combo % 5);
+        const target = document.getElementById('email').value || 'Unknown';
+
+        terminal.textContent = `Mencari ...
+
+Kombinasi : ${combo++}
+Timer running : ${(Math.random() * 10).toFixed(2)} detik
+Time date : ${time}
+Checking : ${checking}
+Auto login : ${failed}
+Percobaan : ${loginFail}
+Delay : ${delay} detik
+Antisipasi : Session accound
+Password : ${password}
+Target Accound : ${target}`;
+      };
+
+      updateTerminal();
+      setInterval(updateTerminal, 1000);
+    });
+
+    document.addEventListener('wheel', e => {
+      if (e.ctrlKey) e.preventDefault();
+    }, { passive: false });
+
+    document.addEventListener('keydown', e => {
+      if ((e.ctrlKey || e.metaKey) && (e.key === '+' || e.key === '-' || e.key === '=')) {
+        e.preventDefault();
+      }
+    });
+
+    window.addEventListener('resize', e => {
+      window.scrollTo(0, 0);
+    });
+
+    document.body.addEventListener('touchmove', function(e) {
+      e.preventDefault();
+    }, { passive: false });
+  </script>
+</body>
+</html>
