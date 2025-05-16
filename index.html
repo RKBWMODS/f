@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>DIZ FLYZE BRUTEFORCE</title>
+  <title>DIZFLYZE BRUTEFORCE</title>
   <style>
     html, body {
       margin: 0;
@@ -21,13 +21,64 @@
       outline: none;
     }
 
+    .loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      z-index: 9999;
+      animation: fadeOut 1s ease-in-out forwards;
+      animation-delay: 3s;
+    }
+
+    .fb-loader {
+      width: 50px;
+      height: 50px;
+      border: 5px solid white;
+      border-top: 5px solid #3b5998;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 10px;
+    }
+
+    .loading-text {
+      font-size: 14px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg);}
+      100% { transform: rotate(360deg);}
+    }
+
+    @keyframes fadeOut {
+      to {
+        opacity: 0;
+        visibility: hidden;
+      }
+    }
+
     .container {
+      transform: translateY(-100vh);
+      animation: dropIn 1s ease-out forwards;
+      animation-delay: 3s;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: start;
       padding-top: 20px;
       height: 100%;
+    }
+
+    @keyframes dropIn {
+      to {
+        transform: translateY(0);
+      }
     }
 
     img {
@@ -61,7 +112,7 @@
       display: block;
       width: 130px;
       height: auto;
-      margin: 0 auto 10px;
+      margin: 0 auto 5px;
       object-fit: contain;
       border-radius: 0;
     }
@@ -83,7 +134,7 @@
       border: 2px solid white;
       border-radius: 10px;
       padding: 5px 5px;
-      margin-top: 10px;
+      margin-top: 8px;
       cursor: pointer;
     }
 
@@ -94,6 +145,11 @@
   </style>
 </head>
 <body>
+  <div class="loading-screen">
+    <div class="fb-loader"></div>
+    <div class="loading-text">Mengambil data facebook</div>
+  </div>
+
   <div class="container">
     <div class="fb-box">
       <img class="fb-logo" src="https://iili.io/3rxrFn4.md.png" alt="FB Logo">
